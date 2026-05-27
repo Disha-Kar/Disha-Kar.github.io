@@ -1,16 +1,14 @@
-import { useEffect, useState, Suspense } from 'react'
+import { useEffect, useState, Suspense, lazy } from 'react'
 import Lenis from 'lenis'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { Canvas } from '@react-three/fiber'
-import { Loader } from '@react-three/drei'
-import { Experience } from './components/Experience'
-import { UI, transitionStateAtom } from './components/UI'
+import { transitionStateAtom } from './components/UI'
 import { GlobalLoader } from './components/GlobalLoader'
-import Camera3D from './components/Camera3D'
 import ArtForms from './components/ArtForms'
 import { MarqueeText } from './components/MarqueeText'
 import { useAtom } from 'jotai'
 import './App.css'
+
+const Camera3D = lazy(() => import('./components/Camera3D'))
 
 function App() {
   const [appLoaded, setAppLoaded] = useState(false)
@@ -187,7 +185,9 @@ function App() {
                 {/* Right Column: 3D Camera */}
                 <div className="w-full lg:w-[58%] h-[40vh] lg:h-full relative shrink-0 p-4 sm:p-6 lg:p-8 flex items-center justify-center">
                   <div className="w-full h-full relative overflow-hidden rounded-2xl lg:rounded-[2rem]">
-                    <Camera3D />
+                    <Suspense fallback={<div className="w-full h-full bg-[#0a0a0c]" />}>
+                      <Camera3D />
+                    </Suspense>
                   </div>
                 </div>
 
