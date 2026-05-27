@@ -2,28 +2,31 @@ import { atom, useAtom } from "jotai";
 import { useEffect, useState } from "react";
 
 const pictures = [
-  "DSC00680",
-  "DSC00933",
-  "DSC00966",
-  "DSC00983",
-  "DSC01011",
-  "DSC01040",
-  "DSC01064",
-  "DSC01071",
-  "DSC01103",
-  "DSC01145",
-  "DSC01420",
-  "DSC01461",
-  "DSC01489",
-  "DSC02031",
-  "DSC02064",
-  "DSC02069",
+  "../images/woman-taking-photo-with-camera-vibrant-landscape_964851-203020.jpg",
+  "../images/graphic.avif",
+  "DSC00680.jpg",
+  "DSC00933.jpg",
+  "DSC00966.jpg",
+  "DSC00983.jpg",
+  "DSC01011.jpg",
+  "DSC01040.jpg",
+  "DSC01064.jpg",
+  "DSC01071.jpg",
+  "DSC01103.jpg",
+  "DSC01145.jpg",
+  "DSC01420.jpg",
+  "DSC01461.jpg",
+  "DSC01489.jpg",
+  "DSC02031.jpg",
+  "DSC02064.jpg",
+  "DSC02069.jpg",
 ];
 
 export const pageAtom = atom(0);
+export const transitionStateAtom = atom('idle'); // 'idle' | 'zooming' | 'black'
 export const pages = [
   {
-    front: "book-cover-anshi",
+    front: "book-cover-anshi.jpg",
     back: pictures[0],
   },
 ];
@@ -36,7 +39,7 @@ for (let i = 1; i < pictures.length - 1; i += 2) {
 
 pages.push({
   front: pictures[pictures.length - 1],
-  back: "book-back-anshi",
+  back: "book-back-anshi.jpg",
 });
 
 export const UI = ({ isBookVisible }) => {
@@ -79,9 +82,26 @@ export const UI = ({ isBookVisible }) => {
     <>
       <main className="pointer-events-none select-none z-10 fixed inset-0 flex justify-between flex-col">
         {/* Top label */}
-
-
-        {/* Page labels overlay — shown when book is open */}
+        <div
+          className="w-full flex justify-center mt-12 sm:mt-16"
+          style={{
+            opacity: labelsVisible && isOpen ? 1 : 0,
+            transition: "opacity 0.8s ease 0.4s", // slightly delayed so it appears smoothly
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: "12px",
+              color: "white",
+              textTransform: "uppercase",
+              letterSpacing: "0.25em",
+              textShadow: "0 0 12px rgba(255,255,255,0.9), 0 0 24px rgba(255,255,255,0.5)",
+            }}
+          >
+            Pick Your Craft
+          </span>
+        </div>        {/* Page labels overlay — shown when book is open */}
         <div
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
           style={{ zIndex: 20 }}

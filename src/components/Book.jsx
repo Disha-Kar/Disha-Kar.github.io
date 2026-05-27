@@ -17,7 +17,7 @@ import {
   Vector3,
 } from "three";
 import { degToRad } from "three/src/math/MathUtils.js";
-import { pageAtom, pages } from "./UI";
+import { pageAtom, pages, transitionStateAtom } from "./UI";
 
 const easingFactor = 0.5; // Controls the speed of the easing
 const easingFactorFold = 0.3; // Controls the speed of the easing
@@ -86,15 +86,15 @@ const pageMaterials = [
 ];
 
 pages.forEach((page) => {
-  useTexture.preload(`/textures/${page.front}.jpg`);
-  useTexture.preload(`/textures/${page.back}.jpg`);
+  useTexture.preload(`/textures/${page.front}`);
+  useTexture.preload(`/textures/${page.back}`);
   useTexture.preload(`/textures/book-cover-roughness-anshi.jpg`);
 });
 
 const Page = ({ number, front, back, page, opened, bookClosed, ...props }) => {
   const [picture, picture2, pictureRoughness] = useTexture([
-    `/textures/${front}.jpg`,
-    `/textures/${back}.jpg`,
+    `/textures/${front}`,
+    `/textures/${back}`,
     ...(number === 0 || number === pages.length - 1
       ? [`/textures/book-cover-roughness-anshi.jpg`]
       : []),
@@ -234,6 +234,7 @@ const Page = ({ number, front, back, page, opened, bookClosed, ...props }) => {
   });
 
   const [_, setPage] = useAtom(pageAtom);
+  const [, setTransitionState] = useAtom(transitionStateAtom);
   const [highlighted, setHighlighted] = useState(false);
   useCursor(highlighted);
 
@@ -251,7 +252,11 @@ const Page = ({ number, front, back, page, opened, bookClosed, ...props }) => {
       }}
       onClick={(e) => {
         e.stopPropagation();
-        setPage(opened ? number : number + 1);
+        if (opened && number === 0) {
+          setTransitionState('zooming');
+        } else {
+          setPage(opened ? number : number + 1);
+        }
         setHighlighted(false);
       }}
     >

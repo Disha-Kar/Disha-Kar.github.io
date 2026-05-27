@@ -4,14 +4,16 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { Canvas } from '@react-three/fiber'
 import { Loader } from '@react-three/drei'
 import { Experience } from './components/Experience'
-import { UI } from './components/UI'
+import { UI, transitionStateAtom } from './components/UI'
 import { GlobalLoader } from './components/GlobalLoader'
 import { MarqueeText } from './components/MarqueeText'
+import { useAtom } from 'jotai'
 import './App.css'
 
 function App() {
   const [phase, setPhase] = useState('in')
   const [appLoaded, setAppLoaded] = useState(false)
+  const [transitionState] = useAtom(transitionStateAtom)
 
   // 1. Initialize Lenis Smooth Scroll on desktop (touch sync is false to preserve native mobile momentum)
   useEffect(() => {
@@ -218,16 +220,19 @@ function App() {
             <div style={{ pointerEvents: 'auto' }}>
               <UI isBookVisible={isBookVisible} />
             </div>
-            {/* Canvas wrapper: pointer-events-none on mobile so touch scrolls the page, not the 3D scene */}
-            <div className="flex-1 w-full h-full relative" style={{ touchAction: 'pan-y', pointerEvents: 'none' }}>
+            {/* Canvas wrapper: allow pointer events so clicks work, touchAction pan-y preserves scroll */}
+            <div className="flex-1 w-full h-full relative" style={{ touchAction: 'pan-y', pointerEvents: 'auto' }}>
               <Canvas
                 shadows
                 camera={{
-                  position: [-0.5, 1, window.innerWidth > 800 ? 4 : 8],
+                  position: [
+                    window.innerWidth < 768 ? 0 : -0.5,
+                    window.innerWidth < 768 ? 0.2 : 1,
+                    window.innerWidth < 768 ? 7 : 4
+                  ],
                   fov: 45,
                 }}
-                style={{ pointerEvents: 'none', touchAction: 'none' }}
-                eventSource={null}
+                style={{ pointerEvents: 'auto', touchAction: 'pan-y' }}
               >
                 <group position-y={0}>
                   <Suspense fallback={null}>
@@ -248,6 +253,16 @@ function App() {
       </div>
     </div>
       </div>
+      
+      {/* Black Transition Overlay */}
+      <div 
+        className="fixed inset-0 bg-black z-[9999]"
+        style={{
+          opacity: transitionState === 'black' ? 1 : 0,
+          transition: 'opacity 0.8s ease-in-out',
+          pointerEvents: transitionState === 'black' ? 'auto' : 'none'
+        }}
+      />
     </>
   )
 }

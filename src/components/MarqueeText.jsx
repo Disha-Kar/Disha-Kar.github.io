@@ -1,12 +1,9 @@
 export const MarqueeText = () => {
-  // Repeat enough times so it tiles seamlessly across any screen width
   const phrase = "It is all about Creativity";
   const separator = "✦";
 
-  // One "track" = phrase repeated 6 times so the seamless loop works on wide screens
   const track = Array.from({ length: 6 }).map((_, i) => (
     <span key={i} className="marquee-item">
-      {/* Alternate between filled and outlined style */}
       {i % 2 === 0 ? (
         <span className="marquee-filled">{phrase}</span>
       ) : (

@@ -26,8 +26,8 @@ export const GlobalLoader = ({ onLoaded }) => {
     }
   }, [progress]);
 
-  // Characters of "Hi!" for stagger animation
-  const chars = ["H", "i", "!"];
+  // The greeting text
+  const greetingText = "Hi, I'm";
 
   if (!visible) return null;
 
@@ -60,31 +60,19 @@ export const GlobalLoader = ({ onLoaded }) => {
         }}
       />
 
-      {/* "Hi!" stagger text */}
+      {/* "Hi, I'm" fluid text */}
       <div
         style={{
-          display: "flex",
-          alignItems: "baseline",
-          gap: "0.02em",
+          fontFamily: "'Playfair Display', serif",
+          fontSize: "clamp(48px, 12vw, 110px)",
+          fontWeight: 300,
+          color: "white",
+          letterSpacing: "-0.02em",
+          lineHeight: 1,
+          animation: "textFlowIn 1.2s cubic-bezier(0.16,1,0.3,1) both",
         }}
       >
-        {chars.map((char, i) => (
-          <span
-            key={i}
-            style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: "clamp(64px, 15vw, 140px)",
-              fontWeight: 300,
-              color: "white",
-              letterSpacing: "-0.02em",
-              lineHeight: 1,
-              display: "inline-block",
-              animation: `loaderCharIn 0.7s cubic-bezier(0.16,1,0.3,1) ${i * 0.1}s both`,
-            }}
-          >
-            {char}
-          </span>
-        ))}
+        {greetingText}
       </div>
 
       {/* Thin progress bar at bottom */}
@@ -104,16 +92,14 @@ export const GlobalLoader = ({ onLoaded }) => {
 
       {/* Keyframe styles injected inline */}
       <style>{`
-        @keyframes loaderCharIn {
+        @keyframes textFlowIn {
           from {
             opacity: 0;
-            filter: blur(14px);
-            transform: translateY(-20px) scale(0.92);
+            transform: translateY(20px);
           }
           to {
             opacity: 1;
-            filter: blur(0px);
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
           }
         }
       `}</style>
