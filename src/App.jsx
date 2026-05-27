@@ -1,4 +1,4 @@
-import { useEffect, useState, Suspense, lazy } from 'react'
+import { useEffect, useState } from 'react'
 import Lenis from 'lenis'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { transitionStateAtom } from './components/UI'
@@ -7,8 +7,6 @@ import ArtForms from './components/ArtForms'
 import { MarqueeText } from './components/MarqueeText'
 import { useAtom } from 'jotai'
 import './App.css'
-
-const Camera3D = lazy(() => import('./components/Camera3D'))
 
 function App() {
   const [appLoaded, setAppLoaded] = useState(false)
@@ -182,12 +180,12 @@ function App() {
                   </div>
                 </div>
 
-                {/* Right Column: 3D Camera */}
+                {/* Right Column: Static Camera Placeholder */}
                 <div className="w-full lg:w-[58%] h-[40vh] lg:h-full relative shrink-0 p-4 sm:p-6 lg:p-8 flex items-center justify-center">
-                  <div className="w-full h-full relative overflow-hidden rounded-2xl lg:rounded-[2rem]">
-                    <Suspense fallback={<div className="w-full h-full bg-[#0a0a0c]" />}>
-                      <Camera3D />
-                    </Suspense>
+                  <div className="w-full h-full relative overflow-hidden rounded-2xl lg:rounded-[2rem] bg-[#0a0a0c] border border-white/5 flex flex-col items-center justify-center text-center px-4">
+                    <div className="text-white/70 text-sm uppercase tracking-[0.3em] mb-3">Camera model removed</div>
+                    <div className="text-white font-semibold text-xl">Still image placeholder</div>
+                    <div className="mt-2 text-white/50 text-xs max-w-[220px]">The 3D camera scene has been removed to keep the build smaller and eliminate the model loader.</div>
                   </div>
                 </div>
 
