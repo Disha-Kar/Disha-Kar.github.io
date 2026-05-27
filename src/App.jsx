@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Lenis from 'lenis'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { transitionStateAtom } from './components/UI'
 import { GlobalLoader } from './components/GlobalLoader'
 import ArtForms from './components/ArtForms'
 import { MarqueeText } from './components/MarqueeText'
+import TopChosenOnes from './components/TopChosenOnes'
 import { useAtom } from 'jotai'
 import './App.css'
 
@@ -66,7 +67,11 @@ function App() {
   }, [])
 
   // 2. Framer Motion Scroll Orchestration (100% Native, GPU-Accelerated on all platforms)
-  const { scrollYProgress } = useScroll()
+  const containerRef = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  })
 
   // Centered Hero card scaling
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.78])
@@ -105,10 +110,10 @@ function App() {
         pointerEvents: appLoaded ? 'auto' : 'none',
       }}>
         {/* Outer scroll wrapper defines the scroll length (400vh = 4 screens of scrolling) */}
-        <div className="scroll-wrapper relative w-full h-[400vh] bg-black select-none">
+        <div ref={containerRef} className="scroll-wrapper relative w-full h-[400vh] bg-black select-none">
 
-          {/* FIXED VIEWPORT: Scene stays stuck in place while user scrolls */}
-          <div className="fixed inset-0 w-full h-screen p-2 sm:p-6 flex flex-col justify-between z-10 overflow-hidden pointer-events-none">
+          {/* STICKY VIEWPORT: Scene stays stuck in place while user scrolls this 400vh block */}
+          <div className="sticky top-0 w-full h-screen p-2 sm:p-6 flex flex-col justify-between z-10 overflow-hidden pointer-events-none">
 
             {/* FIRST PAGE: MAIN HERO CARD */}
             <motion.main
@@ -207,6 +212,9 @@ function App() {
 
           </div>
         </div>
+
+        {/* New Scrolling Section */}
+        <TopChosenOnes />
 
       </div>
 

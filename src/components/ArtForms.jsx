@@ -142,7 +142,7 @@ export default function ArtForms({ scrollYProgress }) {
           </div>
 
           {/* Why Me Section immediately following the list */}
-          <div className="w-full mt-24 md:mt-32 pb-[50vh]">
+          <div className="w-full mt-24 md:mt-32 pb-[10vh]">
             <WhyMe />
           </div>
         </motion.div>

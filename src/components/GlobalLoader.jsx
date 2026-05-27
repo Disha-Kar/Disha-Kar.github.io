@@ -1,22 +1,25 @@
-import { useProgress } from "@react-three/drei";
+// import { useProgress } from "@react-three/drei";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const GlobalLoader = ({ onLoaded }) => {
-  const { progress } = useProgress();
+  // const { progress } = useProgress();
+  const progress = 100; // Hardcoded to 100 since we removed Three.js
   const [phase, setPhase] = useState("in"); // 'in' | 'hold' | 'out' | 'done'
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
+    // If progress is 100, we can immediately begin the 'out' phase
+    // since there are no heavy 3D models to wait for anymore!
     if (progress === 100) {
       const holdTimer = setTimeout(() => {
         setPhase("out");
-      }, 500);
+      }, 0); // Reduced from 500ms
 
       const doneTimer = setTimeout(() => {
         setVisible(false);
         onLoaded?.();
-      }, 1500);
+      }, 1000); // Reduced from 1500ms (1000ms is enough for the curtain animation to finish)
 
       return () => {
         clearTimeout(holdTimer);
