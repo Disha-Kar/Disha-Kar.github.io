@@ -10,15 +10,15 @@ const CameraController = () => {
   
   useFrame((state, delta) => {
     if (transitionState === 'zooming' || transitionState === 'black') {
-      const isMobile = window.innerWidth < 768;
-      // Target the center of the left page
-      const targetPos = [-0.64, 0, isMobile ? 1.8 : 1.2];
+      // Target the center of the left page, but set Z deep enough to pass *through* the book.
+      const targetPos = [-0.64, 0, -0.5];
       
-      easing.damp3(state.camera.position, targetPos, 0.5, delta);
-      easing.dampE(state.camera.rotation, [0, 0, 0], 0.5, delta);
+      // Slower damping (1.2 instead of 0.5) for a longer, cinematic zoom
+      easing.damp3(state.camera.position, targetPos, 1.2, delta);
+      easing.dampE(state.camera.rotation, [0, 0, 0], 1.2, delta);
       
-      // When close enough, trigger black transition
-      if (transitionState === 'zooming' && Math.abs(state.camera.position.z - targetPos[2]) < 0.5) {
+      // When close enough to physically touch the page (z < 0.3), trigger black transition
+      if (transitionState === 'zooming' && state.camera.position.z < 0.3) {
          setTransitionState('black');
       }
     }
@@ -28,16 +28,15 @@ const CameraController = () => {
 
 export const Experience = () => {
   const [transitionState] = useAtom(transitionStateAtom);
-  const active = transitionState === 'idle';
 
   return (
     <>
       <CameraController />
       <Float
-        rotation-x={active ? -Math.PI / 8 : 0}
-        floatIntensity={active ? 0.4 : 0}
-        speed={active ? 1.5 : 0}
-        rotationIntensity={active ? 0.15 : 0}
+        rotation-x={-Math.PI / 8}
+        floatIntensity={0.4}
+        speed={1.5}
+        rotationIntensity={0.15}
       >
         <Book />
       </Float>

@@ -101,12 +101,11 @@ export const UI = ({ isBookVisible }) => {
           >
             Pick Your Craft
           </span>
-        </div>        {/* Page labels overlay — shown when book is open */}
+        </div>
         <div
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
           style={{ zIndex: 20 }}
         >
-          {/* Left page label: Photography */}
           <div
             style={{
               position: "absolute",
@@ -136,7 +135,6 @@ export const UI = ({ isBookVisible }) => {
             </span>
           </div>
 
-          {/* Right page label: Graphic Design */}
           <div
             style={{
               position: "absolute",
