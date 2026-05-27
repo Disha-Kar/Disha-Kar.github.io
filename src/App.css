@@ -21,10 +21,10 @@
   opacity: 1;
 }
 
-/* Enable noise on mobile devices but reduce opacity slightly for performance */
+/* Disable highly expensive SVG procedural noise on mobile devices to save GPU fill-rate */
 @media (max-width: 768px) {
   .hdr-noise {
-    opacity: 0.8;
+    display: none !important;
   }
 }
 

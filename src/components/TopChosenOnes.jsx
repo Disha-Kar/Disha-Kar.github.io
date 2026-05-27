@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const TOP_IMAGES = [
   { src: '/Top 5/92bef0223680695.67fd66e01aa79.jpg', title: 'PORTRAIT ONE', subtitle: 'Creative Director' },
@@ -13,25 +14,29 @@ export default function TopChosenOnes() {
     <section className="relative w-full bg-[#0a0a0c] min-h-screen">
       {/* STICKY BACKGROUND TEXT */}
       <div className="sticky top-0 w-full h-[100dvh] flex flex-col items-center justify-center z-0 pointer-events-none">
-        <h2 className="text-[#f8c210] font-script text-5xl md:text-7xl lg:text-7xl mb-1 lg:mb-2 -rotate-2 z-10 relative left-[-2%]">
-          Top 3
-        </h2>
+        <motion.h2 
+          animate={{ rotate: [-4, 2, -4] }}
+          transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+          className="text-[#f8c210] font-script text-5xl md:text-7xl lg:text-7xl mb-1 lg:mb-2 z-10 relative left-[-2%] origin-center"
+        >
+          Top 5
+        </motion.h2>
         <h1 className="text-white/30 font-black font-display text-5xl md:text-7xl lg:text-[8vw] uppercase tracking-tighter leading-none text-center">
           Chosen Ones
         </h1>
       </div>
 
       {/* FOREGROUND SCROLLING IMAGES */}
-      <div className="relative z-10 w-full max-w-6xl mx-auto flex flex-col px-[5vw] pb-[20vh]">
-        {/* Empty space to let the sticky text be visible initially before scrolling over it */}
-        <div className="h-[80vh]"></div>
+      <div className="relative z-10 w-full max-w-6xl mx-auto flex flex-col px-[5vw] pb-[10vh] -mt-[25vh]">
+        {/* We use -mt-[25vh] to pull the images UP over the 100dvh sticky placeholder space. 
+            This ensures the first card starts near the bottom of the screen instead of being pushed 130vh down! */}
 
         {TOP_IMAGES.map((img, idx) => {
           const isEven = idx % 2 === 0;
           return (
             <div
               key={idx}
-              className={`mb-[25vh] w-[70%] max-w-[260px] md:max-w-[300px] flex flex-col ${isEven ? 'self-start' : 'self-end'}`}
+              className={`mb-[10vh] md:mb-[15vh] w-[70%] max-w-[260px] md:max-w-[300px] flex flex-col ${isEven ? 'self-start' : 'self-end'} relative z-10`}
             >
               <div className="w-full aspect-[4/5] relative overflow-hidden rounded-sm bg-[#111] shadow-2xl">
                 <img
