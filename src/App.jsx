@@ -136,7 +136,7 @@ function App() {
                 className="absolute inset-0 flex flex-col lg:flex-row z-20 overflow-hidden"
               >
                 {/* Left Column: Content */}
-                <div className="w-full lg:w-[42%] flex flex-col justify-center lg:justify-between h-full p-6 sm:p-10 lg:p-16 bg-black/40 lg:bg-transparent shrink-0">
+                <div className="w-full lg:w-[42%] flex flex-col justify-start pt-[8vh] md:justify-center lg:justify-between h-full px-6 md:p-10 lg:p-16 bg-black/40 lg:bg-transparent shrink-0">
                   <div className="flex flex-col">
                     {/* Big Logo Name */}
                     <h1 className="text-white font-black tracking-tighter leading-[0.85] font-display mb-8 select-none flex flex-col">
@@ -190,6 +190,49 @@ function App() {
 
                     {/* Yellow Accent Bar */}
                     <div className="w-24 h-1.5 bg-[#f8c210] mt-8 rounded-full opacity-90 shadow-[0_0_15px_rgba(248,194,16,0.4)]"></div>
+                    
+                    {/* Infinite Carousel Marquees */}
+                    <div 
+                      className="mt-6 md:mt-8 flex flex-col gap-2.5 overflow-hidden w-full pointer-events-none"
+                      style={{ maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)", WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)" }}
+                    >
+                      {/* Row 1: Moves Left */}
+                      <motion.div 
+                        animate={{ x: ["0%", "-50%"] }} 
+                        transition={{ ease: "linear", duration: 30, repeat: Infinity }}
+                        className="flex gap-2.5 w-max"
+                      >
+                        {[
+                          '/Carousel/image.png', '/Carousel/image1.png', '/Carousel/image2.png', 
+                          '/Carousel/image3.png', '/Carousel/image copy.png', '/Carousel/image copy 2.png',
+                          '/Carousel/image.png', '/Carousel/image1.png', '/Carousel/image2.png', 
+                          '/Carousel/image3.png', '/Carousel/image copy.png', '/Carousel/image copy 2.png'
+                        ].map((src, i) => (
+                          <div key={i} className="h-14 w-20 sm:h-16 sm:w-24 lg:h-20 lg:w-28 rounded-lg overflow-hidden shrink-0 border border-white/10 shadow-lg">
+                            <img src={src} className="w-full h-full object-cover" alt="" />
+                          </div>
+                        ))}
+                      </motion.div>
+
+                      {/* Row 2: Moves Right */}
+                      <motion.div 
+                        animate={{ x: ["-50%", "0%"] }} 
+                        transition={{ ease: "linear", duration: 35, repeat: Infinity }}
+                        className="flex gap-2.5 w-max"
+                      >
+                        {[
+                          '/Carousel/image copy 3.png', '/Carousel/image copy 4.png', '/Carousel/arch2.jpg', 
+                          '/Carousel/92bef0223680695.67fd66e01aa79.jpg', '/Carousel/rage.webp', '/Carousel/water.webp',
+                          '/Carousel/image copy 3.png', '/Carousel/image copy 4.png', '/Carousel/arch2.jpg', 
+                          '/Carousel/92bef0223680695.67fd66e01aa79.jpg', '/Carousel/rage.webp', '/Carousel/water.webp'
+                        ].map((src, i) => (
+                          <div key={i} className="h-14 w-20 sm:h-16 sm:w-24 lg:h-20 lg:w-28 rounded-lg overflow-hidden shrink-0 border border-white/10 shadow-lg">
+                            <img src={src} className="w-full h-full object-cover" alt="" />
+                          </div>
+                        ))}
+                      </motion.div>
+                    </div>
+
                   </div>
                 </div>
 
