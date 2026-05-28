@@ -84,7 +84,7 @@ function App() {
   const contentOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0.05])
 
   // Slide up next section to cover the viewport
-  const nextY = useTransform(scrollYProgress, [0, 0.25], ["105%", "0%"])
+  const nextY = useTransform(scrollYProgress, [0, 0.25], ["110%", "0%"])
 
   // Detect when scrolled down to freeze/stop the cyclic stagger loop
   const [isScrolledDown, setIsScrolledDown] = useState(false)

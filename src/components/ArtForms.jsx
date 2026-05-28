@@ -29,17 +29,11 @@ function ArtFormImage({ scrollYProgress, index, form }) {
     [0, 1, 1, 0]
   );
 
-  const scale = useTransform(
-    scrollYProgress,
-    [fadeStart, startVisible, safeEndVisible, safeFadeEnd],
-    [1.15, 1, 1, 1.15]
-  );
-
   return (
     <motion.img
       src={form.image}
       alt={form.title}
-      style={{ opacity, scale }}
+      style={{ opacity }}
       className="absolute inset-0 w-full h-full object-cover origin-center"
     />
   );
@@ -94,18 +88,11 @@ export default function ArtForms({ scrollYProgress }) {
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   const targetY = isMobile ? "-100vh" : "-130vh";
 
-  // Move the text container up as we scroll from 0.25 to 1.0
-  const textY = useTransform(scrollYProgress, [0.25, 1], ["0vh", targetY]);
-
-  // Make the image scroll away only AFTER the final art form (Photography) is fully shown
-  const imageY = useTransform(scrollYProgress, [0.85, 1], ["0vh", "-120vh"]);
-
   return (
     <div className="w-full h-full flex flex-col pt-4 md:pt-12 lg:px-12 overflow-hidden">
       <div className="w-full h-full relative">
         {/* Right Column: Sticky Image (Absolute to stay fixed while text scrolls) */}
-        <motion.div
-          style={{ y: imageY, willChange: "transform" }}
+        <div
           className="absolute right-0 top-0 w-1/2 lg:w-5/12 flex justify-end items-start h-full z-10 pointer-events-none pt-[30vh] lg:pt-[35vh]"
         >
           <div className="relative w-full max-w-[160px] md:max-w-[200px] lg:max-w-[300px] aspect-[4/3] lg:aspect-[3/4] overflow-hidden border border-white/10 rounded-2xl shadow-2xl ml-auto pointer-events-auto">
@@ -118,13 +105,10 @@ export default function ArtForms({ scrollYProgress }) {
               />
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Scrolling Content Wrapper */}
-        <motion.div
-          style={{ y: textY, willChange: "transform" }}
-          className="w-full flex flex-col justify-start relative z-20"
-        >
+        <div className="w-full flex flex-col justify-start relative z-20">
           {/* Why Me Section moved to the top */}
           <div className="w-full pt-[5vh] pb-[10vh] lg:pb-[15vh]">
             <WhyMe />
@@ -150,7 +134,7 @@ export default function ArtForms({ scrollYProgress }) {
               />
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
