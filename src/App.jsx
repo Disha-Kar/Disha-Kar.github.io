@@ -49,19 +49,20 @@ function App() {
     if (isMobile) return // Completely skip on mobile to prevent any touch lags!
 
     const lenis = new Lenis({
-      duration: 0.8, // Faster, highly responsive scroll
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.08, // Consistent speed instead of duration-based variable speed
       smoothWheel: true,
     })
 
+    let rafId;
     function raf(time) {
       lenis.raf(time)
-      requestAnimationFrame(raf)
+      rafId = requestAnimationFrame(raf)
     }
 
-    requestAnimationFrame(raf)
+    rafId = requestAnimationFrame(raf)
 
     return () => {
+      cancelAnimationFrame(rafId)
       lenis.destroy()
     }
   }, [])
@@ -194,7 +195,6 @@ function App() {
                     {/* MOBILE ONLY: 2-Row Infinite Marquee */}
                     <div 
                       className="flex lg:hidden flex-col gap-2.5 overflow-hidden w-full pointer-events-none"
-                      style={{ maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)", WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)" }}
                     >
                       {/* Row 1: Moves Left */}
                       <motion.div 

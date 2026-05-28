@@ -10,9 +10,9 @@ const ART_FORMS = [
 ];
 function ArtFormImage({ scrollYProgress, index, form }) {
   // Fine-tuned scroll triggers so the images and text highlights sync perfectly with the physical scroll
-  const ITEM_STARTS = [0.25, 0.40, 0.54, 0.68];
+  const ITEM_STARTS = [0.38, 0.52, 0.66, 0.80];
   const startVisible = ITEM_STARTS[index];
-  const endVisible = index === 3 ? 0.82 : ITEM_STARTS[index + 1];
+  const endVisible = index === 3 ? 0.95 : ITEM_STARTS[index + 1];
 
   const ITEM_LENGTH = endVisible - startVisible;
   // We want a slower, smoother crossfade between images
@@ -39,16 +39,16 @@ function ArtFormImage({ scrollYProgress, index, form }) {
     <motion.img
       src={form.image}
       alt={form.title}
-      style={{ opacity, scale, willChange: "opacity, transform" }}
+      style={{ opacity, scale }}
       className="absolute inset-0 w-full h-full object-cover origin-center"
     />
   );
 }
 
 function ArtFormText({ scrollYProgress, index, form }) {
-  const ITEM_STARTS = [0.25, 0.40, 0.54, 0.68];
+  const ITEM_STARTS = [0.38, 0.52, 0.66, 0.80];
   const startVisible = ITEM_STARTS[index];
-  const endVisible = index === 3 ? 0.82 : ITEM_STARTS[index + 1];
+  const endVisible = index === 3 ? 0.95 : ITEM_STARTS[index + 1];
 
   const ITEM_LENGTH = endVisible - startVisible;
   const fadeDuration = ITEM_LENGTH * 0.6; // Slightly slower text fade
@@ -90,12 +90,12 @@ function ArtFormText({ scrollYProgress, index, form }) {
 
 export default function ArtForms({ scrollYProgress }) {
   // Dynamically adjust scroll distance based on device screen size.
-  // Mobile needs less translation because the text wraps and makes the container much taller!
+  // Using vh instead of % so the scroll speed remains constant even if the container height changes (like adding WhyMe to the top!)
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  const targetY = isMobile ? "-35%" : "-60%";
+  const targetY = isMobile ? "-100vh" : "-130vh";
 
   // Move the text container up as we scroll from 0.25 to 1.0
-  const textY = useTransform(scrollYProgress, [0.25, 1], ["0%", targetY]);
+  const textY = useTransform(scrollYProgress, [0.25, 1], ["0vh", targetY]);
 
   // Make the image scroll away only AFTER the final art form (Photography) is fully shown
   const imageY = useTransform(scrollYProgress, [0.85, 1], ["0vh", "-120vh"]);
@@ -106,7 +106,7 @@ export default function ArtForms({ scrollYProgress }) {
         {/* Right Column: Sticky Image (Absolute to stay fixed while text scrolls) */}
         <motion.div
           style={{ y: imageY, willChange: "transform" }}
-          className="absolute right-0 top-0 w-1/2 lg:w-5/12 flex justify-end items-start h-full z-10 pointer-events-none pt-[15vh] lg:pt-[25vh]"
+          className="absolute right-0 top-0 w-1/2 lg:w-5/12 flex justify-end items-start h-full z-10 pointer-events-none pt-[30vh] lg:pt-[35vh]"
         >
           <div className="relative w-full max-w-[160px] md:max-w-[200px] lg:max-w-[300px] aspect-[4/3] lg:aspect-[3/4] overflow-hidden border border-white/10 rounded-2xl shadow-2xl ml-auto pointer-events-auto">
             {ART_FORMS.map((form, index) => (
@@ -120,13 +120,18 @@ export default function ArtForms({ scrollYProgress }) {
           </div>
         </motion.div>
 
-        {/* Scrolling Content Wrapper (Left Column + Why Me) */}
+        {/* Scrolling Content Wrapper */}
         <motion.div
           style={{ y: textY, willChange: "transform" }}
           className="w-full flex flex-col justify-start relative z-20"
         >
+          {/* Why Me Section moved to the top */}
+          <div className="w-full pt-[5vh] pb-[10vh] lg:pb-[15vh]">
+            <WhyMe />
+          </div>
+
           {/* Left Column: List of Art Forms */}
-          <div className="w-1/2 lg:w-7/12 flex flex-col justify-start gap-12 md:gap-16 lg:gap-24 pt-[15vh] lg:pt-[25vh]">
+          <div className="w-1/2 lg:w-7/12 flex flex-col justify-start gap-12 md:gap-16 lg:gap-24 pt-[5vh]">
             {/* Title moved inside scrolling container */}
             <motion.div
               className="text-[#f8c210] font-script text-3xl md:text-4xl lg:text-5xl mb-4 md:mb-8 origin-left shrink-0"
@@ -144,11 +149,6 @@ export default function ArtForms({ scrollYProgress }) {
                 form={form}
               />
             ))}
-          </div>
-
-          {/* Why Me Section immediately following the list */}
-          <div className="w-full mt-24 md:mt-32 pb-[10vh]">
-            <WhyMe />
           </div>
         </motion.div>
       </div>
