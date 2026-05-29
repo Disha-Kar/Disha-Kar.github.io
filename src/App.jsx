@@ -6,6 +6,9 @@ import { GlobalLoader } from './components/GlobalLoader'
 import ArtForms from './components/ArtForms'
 import { MarqueeText } from './components/MarqueeText'
 import TopChosenOnes from './components/TopChosenOnes'
+import SpiralGallery from './components/SpiralGallery'
+import LetsBuild from './components/LetsBuild'
+import Footer from './components/Footer'
 import { useAtom } from 'jotai'
 import './App.css'
 
@@ -77,9 +80,8 @@ function App() {
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
 
   // Centered Hero card scaling only on desktop; keep mobile unchanged
-  const scale = isMobile
-    ? 1
-    : useTransform(scrollYProgress, [0, 1], [1, 0.35])
+  const scaleTransform = useTransform(scrollYProgress, [0, 1], [1, 0.35])
+  const scale = isMobile ? 1 : scaleTransform
 
   // Background gradient stays constant, no color fade
   const bgOpacity = 0
@@ -188,7 +190,7 @@ function App() {
                       <a href="https://www.behance.net/anshijangid?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQPOTM2NjE5NzQzMzkyNDU5AAGnR8i-ptMbkNpfHQhgT41kldWGw8iTA054WxhF-hNbjTUlOZD2_-801wVsSHo_aem_o2zTp1GhRl6QdB_Mh-gLUQ" target="_blank" rel="noreferrer" aria-label="Behance" className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 lg:w-12 lg:h-12 rounded-full border border-white/20 text-white hover:bg-[#f8c210] hover:text-black hover:border-[#f8c210] transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.918 2.525-6.325 5.62-6.325 3.3 0 5.336 2.459 5.336 5.869v.842h-7.834c.088 1.638 1.487 3 3.161 3 1.096 0 2.296-.441 2.809-1.711h2.573zm-3.21-3.714c-.161-1.353-1.11-2.286-2.277-2.286-1.164 0-2.146.907-2.316 2.286h4.593zm-14.516-7.286h-6v16h6.143c2.723 0 5.419-1.22 5.419-4.839 0-1.897-1.139-3.267-2.73-3.805 1.136-.532 2.168-1.579 2.168-3.411 0-2.671-1.99-3.945-5.002-3.945zm-1.83 6.309h-1.92v-3.715h1.936c1.674 0 2.502.501 2.502 1.833 0 1.267-.84 1.882-2.518 1.882zm1.189 6.786h-3.109v-4.306h3.141c1.883 0 2.87.697 2.87 2.137 0 1.558-1.138 2.169-2.902 2.169z" /></svg>
                       </a>
-                      <a href="mailto:hello@example.com" aria-label="Email" className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 lg:w-12 lg:h-12 rounded-full border border-white/20 text-white hover:bg-[#f8c210] hover:text-black hover:border-[#f8c210] transition-colors">
+                      <a href="mailto:jangidanshi5@gmail.com" aria-label="Email" className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 lg:w-12 lg:h-12 rounded-full border border-white/20 text-white hover:bg-[#f8c210] hover:text-black hover:border-[#f8c210] transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
                       </a>
                     </div>
@@ -333,6 +335,15 @@ function App() {
 
         {/* New Scrolling Section */}
         <TopChosenOnes />
+        
+        {/* Spiral 3D Gallery Section */}
+        <SpiralGallery />
+        
+        {/* Animated Say Hi Section */}
+        <LetsBuild />
+        
+        {/* Footer */}
+        <Footer />
 
       </div>
 
